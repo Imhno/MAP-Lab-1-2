@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CSC402Lab2Theme {
-                WelcomeScreen()
+                StudentIdScreen()
             }
         }
     }
