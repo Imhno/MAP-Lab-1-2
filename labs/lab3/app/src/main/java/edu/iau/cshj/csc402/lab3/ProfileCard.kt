@@ -1,13 +1,18 @@
 package edu.iau.cshj.csc402.lab3
 
-
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -15,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +55,40 @@ fun StudentCard(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Box(
+                    modifier = Modifier.size(56.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(52.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFF0B2545)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "AA",
+                            color = Color.White,
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(17.dp)
+                            .align(Alignment.BottomEnd)
+                            .clip(CircleShape)
+                            .background(Color(0xFF3DDC84))
+                            .border(
+                                width = 2.dp,
+                                color = Color.White,
+                                shape = CircleShape
+                            )
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -99,10 +139,10 @@ private fun StudentCardPreview() {
     CSC402Lab3Theme {
         StudentCard(
             student = Student(
-                name = "Noura Al-Harbi",
+                name = "Abdulrahman Al-Mutairi",
                 program = "Computer Science",
                 gpa = "4.42",
-                email = "noura@iau.edu.sa",
+                email = "student@iau.edu.sa",
                 city = "Jubail"
             ),
             modifier = Modifier.padding(16.dp)
