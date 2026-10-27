@@ -3,7 +3,7 @@ package sa.edu.iau.cshj.studyplanner
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import ui.PlannerHomeRoute
+import sa.edu.iau.cshj.studyplanner.navigation.StudyPlannerApp
 import sa.edu.iau.cshj.studyplanner.ui.theme.StudyPlannerTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             StudyPlannerTheme {
-                PlannerHomeRoute()
+                StudyPlannerApp()
             }
         }
     }

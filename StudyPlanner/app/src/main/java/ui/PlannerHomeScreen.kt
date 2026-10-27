@@ -1,6 +1,5 @@
 package ui
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +22,15 @@ import sa.edu.iau.cshj.studyplanner.ui.theme.StudyPlannerTheme
 data class PlannerUiState(
     val greeting: String = "Welcome to your Study Planner",
     val totalTasks: Int = 0,
-    val doneTasks: Int = 0
+    val doneTasks: Int = 0,
+    val tasks: List<String> = emptyList()
 )
 
 @Composable
 fun PlannerHomeScreen(
     uiState: PlannerUiState,
     onCompleteTask: () -> Unit,
+    onTaskClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -55,17 +56,32 @@ fun PlannerHomeScreen(
         ) {
             Text("Complete one task")
         }
+
+        uiState.tasks.forEach { title ->
+            Button(
+                onClick = { onTaskClick(title) }
+            ) {
+                Text(title)
+            }
+        }
     }
 }
 
 @Composable
-fun PlannerHomeRoute() {
+fun PlannerHomeRoute(
+    onTaskClick: (String) -> Unit
+) {
     var uiState by remember {
         mutableStateOf(
             PlannerUiState(
                 greeting = "Welcome to your Study Planner",
                 totalTasks = 3,
-                doneTasks = 0
+                doneTasks = 0,
+                tasks = listOf(
+                    "Review Kotlin",
+                    "Lab 5 report",
+                    "Study for CSC 402"
+                )
             )
         )
     }
@@ -82,7 +98,8 @@ fun PlannerHomeRoute() {
                         doneTasks = uiState.doneTasks + 1
                     )
                 }
-            }
+            },
+            onTaskClick = onTaskClick
         )
     }
 }
@@ -96,11 +113,16 @@ private fun PlannerNothingDonePreview() {
     StudyPlannerTheme {
         PlannerHomeScreen(
             uiState = PlannerUiState(
-                greeting = "Welcome to your Study Planner",
                 totalTasks = 3,
-                doneTasks = 0
+                doneTasks = 0,
+                tasks = listOf(
+                    "Review Kotlin",
+                    "Lab 5 report",
+                    "Study for CSC 402"
+                )
             ),
-            onCompleteTask = {}
+            onCompleteTask = {},
+            onTaskClick = {}
         )
     }
 }
@@ -114,11 +136,16 @@ private fun PlannerEverythingDonePreview() {
     StudyPlannerTheme {
         PlannerHomeScreen(
             uiState = PlannerUiState(
-                greeting = "Welcome to your Study Planner",
                 totalTasks = 3,
-                doneTasks = 3
+                doneTasks = 3,
+                tasks = listOf(
+                    "Review Kotlin",
+                    "Lab 5 report",
+                    "Study for CSC 402"
+                )
             ),
-            onCompleteTask = {}
+            onCompleteTask = {},
+            onTaskClick = {}
         )
     }
 }
