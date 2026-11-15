@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import sa.edu.iau.cshj.studyplanner.navigation.StudyPlannerApp
 import sa.edu.iau.cshj.studyplanner.ui.theme.StudyPlannerTheme
-
+haya
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
