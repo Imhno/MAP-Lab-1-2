@@ -19,6 +19,8 @@ interface StudyTaskDao {
 
     @Delete
     suspend fun delete(task: StudyTask)
+    @Query("SELECT COUNT(*) FROM study_tasks WHERE is_done = 0")
+    suspend fun countUnfinished():Int
     @Query("DELETE FROM study_tasks WHERE is_done = 1")
     suspend fun deleteDone()
 }

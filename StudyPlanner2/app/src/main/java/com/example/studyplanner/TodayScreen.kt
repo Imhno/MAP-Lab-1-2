@@ -6,7 +6,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -30,19 +32,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+
 @Composable
 fun TodayRoute(viewModel: TodayViewModel = viewModel(),
         ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isFocusMode = rememberAirplaneModeOn()
+    AskNotificationPermission()
     TodayScreen(
         uiState = uiState,
+        isFocusMode = isFocusMode,
         onAddTask = { title -> viewModel.onAddTask(title) },
         onDeleteDone = { viewModel.onDeleteDone() },
         onDeleteTask = { task -> viewModel.onDeleteTask(task) },// new
         onTaskCheckedChange = { task, done ->
             viewModel.onTaskCheckedChange(task, done)
         },
-        onMessageShown = { viewModel.onMessageShown() }
+        onMessageShown = { viewModel.onMessageShown() },
+                onRemindMe = { viewModel.onRemindMe() }
     )
 }
 @Composable
@@ -79,11 +86,13 @@ fun TaskRow(
 @Composable
 fun TodayScreen(
     uiState: TodayUiState,
+    isFocusMode: Boolean,
     onAddTask: (String) -> Unit,
     onDeleteTask: (StudyTask) -> Unit,
     onDeleteDone: () -> Unit,// new
     onTaskCheckedChange: (StudyTask, Boolean) -> Unit,
-    onMessageShown: () -> Unit
+    onMessageShown: () -> Unit,
+    onRemindMe: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -101,12 +110,18 @@ fun TodayScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Today", Modifier.weight(1f),
                     style = MaterialTheme.typography.headlineMedium)
+                TextButton(onClick = onRemindMe) { Text("Remind me") }
                 TextButton(onClick = {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             "Tick a task when you finish it")
                     }
                 }) { Text("Help")}}
+            if (isFocusMode) { // new
+                Card(Modifier.fillMaxWidth()) {
+                    Text(
+                        "Focus mode: airplane mode is on. No distractions!",
+                        Modifier.padding(12.dp))}}
             TextButton(onClick = onDeleteDone) {Text("Clear done")}
                 AddTaskRow(onAddTask) // new
             when { // new

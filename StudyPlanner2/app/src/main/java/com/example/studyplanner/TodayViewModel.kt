@@ -3,6 +3,9 @@ package com.example.studyplanner
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,6 +53,16 @@ class TodayViewModel(application: Application) :
             }
         }
     }
+    fun onRemindMe() { // new
+        val request = OneTimeWorkRequestBuilder<ReminderWorker>()
+            .setInitialDelay(10, TimeUnit.SECONDS)
+            .build()
+        WorkManager.getInstance(getApplication()).enqueue(request)
+        _uiState.update {
+            it.copy(message = "Reminder in 10 seconds. Close the app!")
+        }
+    }
+
     fun onMessageShown() {
         _uiState.update { it.copy(message = null)
         }}}
